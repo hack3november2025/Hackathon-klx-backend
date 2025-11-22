@@ -8,6 +8,14 @@ from bson import ObjectId
 # FastAPI app
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins, or specify a list of allowed domains
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allow all headers
+)
+
 # Set OpenAI API Key directly
 openai.api_key = "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"
 
