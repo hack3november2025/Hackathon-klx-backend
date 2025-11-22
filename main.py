@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Set OpenAI API Key directly
-openai.api_key = "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"
+openai.api_key = "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"
 
 # MongoDB connection setup
 client = MongoClient("mongodb+srv://hamza_jedidi:qWFf86xJXLX9pwOg@hackathon-klx-bd.jjvq6kg.mongodb.net/?appName=hackathon-klx-db")
@@ -136,6 +136,10 @@ async def save_job_offer(job_offer_document: GeneratedJobOffer):
     try:
         # Convert the Pydantic model instance to a dictionary
         job_offer_data = job_offer_document.dict()
+        job_offer_data["created_at"] = datetime.utcnow().isoformat()
+        job_offer_data["status"] = "Open"
+
+        
 
         # Insert into MongoDB
         inserted = job_offers_collection.insert_one(job_offer_data)
