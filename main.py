@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Set OpenAI API Key directly
-openai.api_key = "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"
+openai.api_key = "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"
 
 # MongoDB connection setup
 client = MongoClient("mongodb+srv://hamza_jedidi:qWFf86xJXLX9pwOg@hackathon-klx-bd.jjvq6kg.mongodb.net/?appName=hackathon-klx-db")
@@ -145,4 +145,5 @@ async def save_job_offer(job_offer_document: GeneratedJobOffer):
             "job_offer_id": str(inserted.inserted_id)
         }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(e)
+        raise HTTPException(status_code=500, detail=e)
