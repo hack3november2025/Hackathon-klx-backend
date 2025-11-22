@@ -18,7 +18,7 @@ app.add_middleware(
 )
 
 # Set OpenAI API Key directly
-openai.api_key = "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"
+openai.api_key = "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"
 
 # MongoDB connection setup
 client = MongoClient("mongodb+srv://hamza_jedidi:qWFf86xJXLX9pwOg@hackathon-klx-bd.jjvq6kg.mongodb.net/?appName=hackathon-klx-db")
@@ -103,35 +103,46 @@ async def generate_job_offer(request: JobOfferRequest):
             input=prompt  # Structured message input
         )
         # Extract generated content from OpenAI response
-       # job_offer = response['choices'][0]['message']['content'].strip()
+        generated_json_str = response.output_text.strip()
 
-        # Step 2: Create the outer JSON object and embed job_offer_data
-        outer_json = {
-            "job_offer": response.output_text
-        }
-
-        # Step 3: Convert the outer JSON back to a string for further use or printing
-        json_text = json.dumps(outer_json, indent=2)
+        job_offer = json.loads(generated_json_str)
 
         # Parse the outer JSON
+        return job_offer
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-        outer_json = json.loads(json_text)
 
-        # Now parse the 'job_offer' key's value, which is another JSON string
-        job_offer = json.loads(outer_json["job_offer"])
+# Pydantic model to validate the incoming job offer data
+class GeneratedJobOffer(BaseModel):
+    job_title: str
+    department: str
+    location: dict  # This will be a nested dictionary
+    employment_type: str
+    salary_range: dict  # This will also be a nested dictionary
+    job_summary: str
+    key_responsibilities: list[str]
+    required_skills: list[str]
+    required_skills_keywords: list[str]
+    preferred_skills: list[str]
+    preferred_skills_keywords: list[str]
+    soft_skills: list[str]
+    soft_skills_keywords: list[str]
+    company_values_and_culture: dict  # Nested dictionary for company values and culture
+    application_encouragement: str
 
-        job_offer_document = {
-            "job_offer": job_offer,
-            "department": request.department,
-            "location": request.location,
-            "employment_type": request.employment_type,
-            "salary_range": request.salary_range,
-            "tone": request.tone,
-            "summary": request.summary
+@app.post("/save-job-offer")
+async def save_job_offer(job_offer_document: GeneratedJobOffer):
+    try:
+        # Convert the Pydantic model instance to a dictionary
+        job_offer_data = job_offer_document.dict()
+
+        # Insert into MongoDB
+        inserted = job_offers_collection.insert_one(job_offer_data)
+
+        # Return the inserted document's ID
+        return {
+            "job_offer_id": str(inserted.inserted_id)
         }
-
-        inserted_job_offer = job_offers_collection.insert_one(job_offer_document)
-        return {"job_offer_id": str(inserted_job_offer.inserted_id), "job_offer": job_offer}
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
