@@ -1,0 +1,100 @@
+# -----------------------------------------
+# Python
+# -----------------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+
+# Byte-compiled / optimized / DLL files
+*.egg
+*.egg-info/
+.eggs/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+pytestdebug.log
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Pyright
+.pyright/
+.typeshare/
+
+# -----------------------------------------
+# Virtual Environments
+# -----------------------------------------
+env/
+venv/
+ENV/
+venv.bak/
+.venv/
+
+# Poetry
+.poetry/
+poetry.lock
+# Uncomment if you want to track the lock file
+# poetry.lock
+
+# Pipenv
+Pipfile.lock
+
+# -----------------------------------------
+# FastAPI / Uvicorn / Logs
+# -----------------------------------------
+logs/
+*.log
+*.pid
+
+# Uvicorn reload signal file
+reload_signal
+
+# -----------------------------------------
+# Environment Variables
+# -----------------------------------------
+.env
+.env.*
+!.env.example
+
+# -----------------------------------------
+# IDE / Editors
+# -----------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# -----------------------------------------
+# OS Files
+# -----------------------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------------------
+# Docker
+# -----------------------------------------
+docker-compose.override.yml
+.docker/
+*.tar
