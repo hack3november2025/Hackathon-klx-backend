@@ -6,6 +6,8 @@ import pymongo
 from pymongo import MongoClient
 from bson import ObjectId
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
+
 # FastAPI app
 app = FastAPI()
 
@@ -18,7 +20,7 @@ app.add_middleware(
 )
 
 # Set OpenAI API Key directly
-openai.api_key = "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"
+openai.api_key = "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"
 
 # MongoDB connection setup
 client = MongoClient("mongodb+srv://hamza_jedidi:qWFf86xJXLX9pwOg@hackathon-klx-bd.jjvq6kg.mongodb.net/?appName=hackathon-klx-db")
@@ -110,6 +112,7 @@ async def generate_job_offer(request: JobOfferRequest):
         # Parse the outer JSON
         return job_offer
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 
