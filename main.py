@@ -5,6 +5,7 @@ import json
 import pymongo
 from pymongo import MongoClient
 from bson import ObjectId
+from fastapi.middleware.cors import CORSMiddleware
 # FastAPI app
 app = FastAPI()
 
